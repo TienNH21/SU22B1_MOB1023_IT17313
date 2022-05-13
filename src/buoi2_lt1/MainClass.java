@@ -1,11 +1,12 @@
 package buoi2_lt1;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MainClass {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        QuanLyDanhSach qlds = new QuanLyDanhSach();
+        NguoiDAOInterface qlds = new QuanLyDanhSach();
         
         while (true) {
             MainClass.menu();
@@ -27,16 +28,22 @@ public class MainClass {
                     String diaChi = sc.nextLine();
                     
                     Nguoi n = new Nguoi(ten, gt, diaChi);
-                    qlds.them(n);
+                    qlds.insert(n);
                     break;
 
                 case 2:
-                    // Xuất ds
-                    qlds.xuatDanhSach();
+                    ArrayList<Nguoi> ds = qlds.getList();
+                    for (Nguoi n1: ds) {
+                        System.out.println(n1.xuatThongTin());
+                    }
                     break;
 
                 case 3:
-                    qlds.sinhVien();
+//                    qlds.sinhVien();
+                    Nguoi sv = new SinhVien("PH1", "UD", "Ng Van A", 1, "HN");
+                    qlds.insert(sv);
+                    System.out.println( sv.xuatThongTin() );
+                    System.out.println( ( (SinhVien) sv ).getChuyenNganh() );
                     break;
 
                 default:

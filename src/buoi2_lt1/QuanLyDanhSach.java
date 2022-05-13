@@ -2,32 +2,36 @@ package buoi2_lt1;
 
 import java.util.ArrayList;
 
-public class QuanLyDanhSach {
+public class QuanLyDanhSach implements NguoiDAOInterface {
     private ArrayList<Nguoi> ds;
-    
+
     public QuanLyDanhSach() {
         this.ds = new ArrayList<Nguoi>();
     }
     
-    public void them(Nguoi n) {
+    @Override
+    public void insert(Nguoi n) {
         this.ds.add(n);
     }
     
-    public void xuatDanhSach() {
-//        for (int i = 0; i <ds.size(); i++) {
-//            Nguoi n = this.ds.get(i);
-//            System.out.println(n.xuatThongTin());
-//        }
+    @Override
+    public ArrayList<Nguoi> getList() {
+        return this.ds;
+    }
 
-        for (Nguoi n: ds) {
-            System.out.println(n.xuatThongTin());
-        }
+    @Override
+    public void update(int viTri, Nguoi n) {
+        this.ds.set(viTri, n);
+    }
+
+    @Override
+    public void delete(int viTri) {
+        this.ds.remove(viTri);
+    }
+
+    @Override
+    public Nguoi getById(int viTri) {
+        return this.ds.get(viTri);
     }
     
-    public void sinhVien() {
-        Nguoi sv = new SinhVien("PH1", "UD", "Ng Van A", 1, "HN");
-        this.ds.add(sv);
-        System.out.println( sv.xuatThongTin() );
-        System.out.println( ( (SinhVien) sv ).getChuyenNganh() );
-    }
 }
