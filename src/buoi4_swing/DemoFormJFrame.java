@@ -1,12 +1,32 @@
 package buoi4_swing;
 
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class DemoFormJFrame extends javax.swing.JFrame {
 
     public DemoFormJFrame() {
-        initComponents(); // Phải là dòng đầu tiên của constructor
+        initComponents();
         this.rdoNam.setSelected(true);
+        this.loadTable();
+    }
+    
+    private void loadTable()
+    {
+        DefaultTableModel dtm = (DefaultTableModel) this.tblSV.getModel();
+        
+        // Xóa các dòng đang có trên table
+        dtm.setRowCount(0);
+        
+        Object[] rowData = {
+            "Ng Van A",
+            "anvph12345@fpt.edu.vn",
+            "Nam",
+            "UDPM",
+            true
+        };
+        
+        dtm.addRow(rowData);
     }
 
     @SuppressWarnings("unchecked")
@@ -29,6 +49,9 @@ public class DemoFormJFrame extends javax.swing.JFrame {
         rdoNam = new javax.swing.JRadioButton();
         rdoNu = new javax.swing.JRadioButton();
         ckbIsSvPoly = new javax.swing.JCheckBox();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblSV = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,7 +70,7 @@ public class DemoFormJFrame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(btnClickMe)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 299, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,7 +161,61 @@ public class DemoFormJFrame extends javax.swing.JFrame {
                     .addComponent(rdoNam)
                     .addComponent(rdoNu)
                     .addComponent(ckbIsSvPoly))
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        tblSV.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Họ tên", "Email", "Giới tính", "Chuyên ngành", "SVPoly"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblSV.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSVMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblSV);
+        if (tblSV.getColumnModel().getColumnCount() > 0) {
+            tblSV.getColumnModel().getColumn(0).setResizable(false);
+            tblSV.getColumnModel().getColumn(1).setResizable(false);
+            tblSV.getColumnModel().getColumn(2).setResizable(false);
+            tblSV.getColumnModel().getColumn(3).setResizable(false);
+            tblSV.getColumnModel().getColumn(4).setResizable(false);
+        }
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -149,7 +226,8 @@ public class DemoFormJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -158,8 +236,10 @@ public class DemoFormJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -188,6 +268,28 @@ public class DemoFormJFrame extends javax.swing.JFrame {
         String message = "Xin chào, " + hoTen;
         JOptionPane.showMessageDialog(this, message);
     }//GEN-LAST:event_btnClickMeActionPerformed
+
+    private void tblSVMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSVMouseClicked
+        int viTri = this.tblSV.getSelectedRow();
+        if (viTri == -1) {
+            return;
+        }
+        
+        String hoTen = this.tblSV.getValueAt(viTri, 0).toString();
+        String email = this.tblSV.getValueAt(viTri, 1).toString();
+        String gt = this.tblSV.getValueAt(viTri, 2).toString();
+        String cNganh = this.tblSV.getValueAt(viTri, 3).toString();
+        String svPoly = this.tblSV.getValueAt(viTri, 4).toString();
+        
+        System.out.println(hoTen);
+        System.out.println(email);
+        System.out.println(gt);
+        System.out.println(cNganh);
+        System.out.println(svPoly);
+        
+        this.txtHoTen.setText(hoTen);
+        this.txtEmail.setText(email);
+    }//GEN-LAST:event_tblSVMouseClicked
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -233,8 +335,11 @@ public class DemoFormJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JRadioButton rdoNam;
     private javax.swing.JRadioButton rdoNu;
+    private javax.swing.JTable tblSV;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtHoTen;
     private javax.swing.JPasswordField txtPassword;
