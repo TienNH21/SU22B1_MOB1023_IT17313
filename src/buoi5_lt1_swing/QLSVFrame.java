@@ -9,6 +9,7 @@ import buoi2_lt1.Nguoi;
 import buoi2_lt1.QuanLyDanhSach;
 import buoi2_lt1.SinhVien;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -38,6 +39,7 @@ public class QLSVFrame extends javax.swing.JFrame {
         
         for (Nguoi n: ds) {
             SinhVien sv = (SinhVien) n;
+
             Object[] rowData = {
                 sv.getMaSv(),
                 sv.getHoTen(),
@@ -107,6 +109,11 @@ public class QLSVFrame extends javax.swing.JFrame {
         rdoNu.setText("Nữ");
 
         btnThem.setText("Thêm");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
         btnSua.setText("Sửa");
 
@@ -129,6 +136,11 @@ public class QLSVFrame extends javax.swing.JFrame {
         btnGhi.setText("Ghi");
 
         btnThoat.setText("Thoát");
+        btnThoat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThoatActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -234,6 +246,11 @@ public class QLSVFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblSV.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSVMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblSV);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -311,6 +328,67 @@ public class QLSVFrame extends javax.swing.JFrame {
         this.qlds.delete(row);
         this.loadTable();
     }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnThoatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThoatActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btnThoatActionPerformed
+
+    private void tblSVMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSVMouseClicked
+        int row = this.tblSV.getSelectedRow();
+        
+        if (row == -1) {
+            return ;
+        }
+        
+        String maSV = this.tblSV.getValueAt(row, 0).toString();
+        String hoTen = this.tblSV.getValueAt(row, 1).toString();
+        String gt = this.tblSV.getValueAt(row, 2).toString();
+        String diaChi = this.tblSV.getValueAt(row, 3).toString();
+        String cNganh = this.tblSV.getValueAt(row, 4).toString();
+        
+        this.txtHoTen.setText(hoTen);
+        this.txtMaSV.setText(maSV);
+        this.txtDiaChi.setText(diaChi);
+        this.cbbCNganh.setSelectedItem(cNganh);
+        
+        if (gt.equals("Nam")) {
+            this.rdoNam.setSelected(true);
+        } else {
+            this.rdoNu.setSelected(true);
+        }
+    }//GEN-LAST:event_tblSVMouseClicked
+
+    private SinhVien getFormData()
+    {
+        String hoTen = this.txtHoTen.getText();
+        String maSV = this.txtMaSV.getText();
+        String diaChi = this.txtDiaChi.getText();
+        String cNganh = this.cbbCNganh.getSelectedItem().toString();
+        int gt = this.rdoNam.isSelected() == true ? 1 : 0;
+        
+        // Kiểm tra form
+        if (
+            hoTen.trim().length() == 0 ||
+            maSV.trim().length() == 0 ||
+            diaChi.trim().length() == 0
+        ) {
+            JOptionPane.showMessageDialog(this, "Không được để trống");
+            return null;
+        }
+        
+        SinhVien sv = new SinhVien(maSV, cNganh, hoTen, gt, diaChi);
+        return sv;
+    }
+    
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        SinhVien sv = this.getFormData();
+        if (sv == null) {
+            return ;
+        }
+        
+        this.qlds.insert(sv);
+        this.loadTable();
+    }//GEN-LAST:event_btnThemActionPerformed
 
     private void clear()
     {
