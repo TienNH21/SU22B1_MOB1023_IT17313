@@ -116,6 +116,11 @@ public class QLSVFrame extends javax.swing.JFrame {
         });
 
         btnSua.setText("Sửa");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
         btnXoa.setText("Xóa");
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
@@ -389,6 +394,22 @@ public class QLSVFrame extends javax.swing.JFrame {
         this.qlds.insert(sv);
         this.loadTable();
     }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        int row = this.tblSV.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Hãy chọn 1 dòng trên table");
+            return ;
+        }
+        
+        SinhVien sv = this.getFormData();
+        if (sv == null) {
+            return ;
+        }
+        
+        this.qlds.update(row, sv);
+        this.loadTable();
+    }//GEN-LAST:event_btnSuaActionPerformed
 
     private void clear()
     {
