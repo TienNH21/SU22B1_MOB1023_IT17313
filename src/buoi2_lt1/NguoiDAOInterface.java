@@ -16,5 +16,6 @@ public interface NguoiDAOInterface {
     public void update(int viTri, Nguoi n);
     public void delete(int viTri);
     public ArrayList<Nguoi> getList();
+    public void setList(ArrayList<Nguoi> ds);
     public Nguoi getById(int viTri);
 }

@@ -1,10 +1,12 @@
 package buoi2_lt1;
 
+import java.io.Serializable;
+
 /*
  * Khi lớp con kế thừa lớp cha, đối tượng của lớp con cũng có kiểu của lớp cha.
  * => đối tượng của SinhVien cũng có thể có kiểu Nguoi
  */
-public class SinhVien extends Nguoi {
+public class SinhVien extends Nguoi implements Serializable {
     private String maSv;
     private String chuyenNganh;
 

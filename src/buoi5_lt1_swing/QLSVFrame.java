@@ -1,23 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package buoi5_lt1_swing;
 
 import buoi2_lt1.Nguoi;
 import buoi2_lt1.QuanLyDanhSach;
 import buoi2_lt1.SinhVien;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author tiennh
- */
 public class QLSVFrame extends javax.swing.JFrame {
     private QuanLyDanhSach qlds;
+    private String filename = "demo_lt1.txt";
     public QLSVFrame() {
         initComponents();
         
@@ -137,8 +138,18 @@ public class QLSVFrame extends javax.swing.JFrame {
         });
 
         btnDoc.setText("Đọc");
+        btnDoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDocActionPerformed(evt);
+            }
+        });
 
         btnGhi.setText("Ghi");
+        btnGhi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGhiActionPerformed(evt);
+            }
+        });
 
         btnThoat.setText("Thoát");
         btnThoat.addActionListener(new java.awt.event.ActionListener() {
@@ -410,6 +421,58 @@ public class QLSVFrame extends javax.swing.JFrame {
         this.qlds.update(row, sv);
         this.loadTable();
     }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnGhiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGhiActionPerformed
+        File f = new File(this.filename);
+        
+        if (f.exists() == true) {
+            System.out.println("File đã tồn tại");
+        } else {
+            System.out.println("File chưa tồn tại");
+        }
+        
+        try {
+            FileOutputStream fos = new FileOutputStream(f);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            ArrayList<Nguoi> ds = this.qlds.getList();
+            oos.writeObject(ds);
+            fos.close();
+            JOptionPane.showMessageDialog(this, "Ghi file thành công");
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy file");
+            e.printStackTrace();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Lỗi vào ra");
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnGhiActionPerformed
+
+    private void btnDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDocActionPerformed
+        File f = new File(this.filename);
+        if (f.exists() == false) {
+            JOptionPane.showMessageDialog(this, "File chưa tồn tại");
+            return ;
+        }
+        
+        try {
+            FileInputStream fis = new FileInputStream(f);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            ArrayList<Nguoi> ds = (ArrayList<Nguoi>) ois.readObject();
+            ois.close();
+            this.qlds.setList(ds);
+            this.loadTable();
+            JOptionPane.showMessageDialog(this, "Đọc file thành công");
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy file");
+            e.printStackTrace();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Lỗi vào ra");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(this, "Lỗi dữ liệu");
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnDocActionPerformed
 
     private void clear()
     {
